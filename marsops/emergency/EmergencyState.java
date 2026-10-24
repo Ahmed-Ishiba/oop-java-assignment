@@ -1,5 +1,7 @@
 package marsops.emergency;
 
-public class EmergencyState {
-
+public enum EmergencyState {
+    ACTIVE,
+    RESOLVED,
+    UNRESOLVED
 }

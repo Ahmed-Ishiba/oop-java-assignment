@@ -1,7 +1,6 @@
 package marsops.mission;
 
-public enum MissionType
-{
+public enum MissionType {
     EXPLORATION,
     RESEARCH,
     RESCUE,

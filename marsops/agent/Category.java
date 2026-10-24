@@ -1,5 +1,6 @@
 package marsops.agent;
 
-public class Category {
-    
+public enum Category {
+   HUMAN,
+   ROBOT
 }
