@@ -2,7 +2,7 @@ package marsops.resource;
 
 public enum ResourceType {
     OXYGEN,
-    WATWER,
+    WATER,
     FOOD,
     FUEL,
     BATTERY_POWER,
