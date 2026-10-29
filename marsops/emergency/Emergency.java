@@ -17,6 +17,10 @@ public abstract class Emergency {
             this.Emergency_type = Emergency_type;
             this.location = location;
     }
+    protected Emergency(){
+        this.Emergency_type = EmergencyType.MEDICAL_EMERGENCY;
+        
+    }
     public EmergencyType getType() {return Emergency_type;}
     public Location getLocation() {return location;}
     public EmergencyState getState() {return state;}

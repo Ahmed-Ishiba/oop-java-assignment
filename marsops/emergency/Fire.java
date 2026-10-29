@@ -13,6 +13,4 @@ public class Fire extends Emergency{
     public void applyImmediateEffects() {
         return;
     }
-
-
 }
