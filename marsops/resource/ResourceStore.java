@@ -9,7 +9,7 @@ public class ResourceStore {
         return quantites[type.ordinal()];
     }
 
-    public void add(int amount, ResourceType type) {
+    public void add(ResourceType type, int amount) {
         if (amount < 0)
             return;
         quantites[type.ordinal()] = quantites[type.ordinal()] + amount;

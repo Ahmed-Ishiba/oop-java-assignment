@@ -14,9 +14,10 @@ public class Equipment {
         this.id = id;
         this.name = name;
         this.type = type;
-        if (status == null)
+        if (status == null) {
             this.status = EquipmentStatus.OPERATIONAL;
-        this.status = status;
+        } else
+            this.status = status;
 
     }
 
