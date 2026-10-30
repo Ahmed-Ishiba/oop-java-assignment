@@ -110,4 +110,12 @@ public abstract class Facility {
         }
         return null;
     }
+
+    public abstract String getType();
+
+    @Override
+    public String toString() {
+        return getType() + " #" + id + " '" + name + "' [" + status + "] resources: " + resources;
+    }
+
 }
