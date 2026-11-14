@@ -50,7 +50,7 @@ public abstract class Facility {
         return this.status;
     }
 
-    public void setSTatus(FacilityStatus status) {
+    public void setStatus(FacilityStatus status) {
         this.status = status;
     }
 
@@ -84,9 +84,16 @@ public abstract class Facility {
         return resources.remove(type, amount);
     }
 
-    public Equipment[] addEquipment(Equipment item) {
+    public void addEquipment(Equipment item) {
+        if (item != null && equipmentCount < equipment.length) {
+            equipment[equipmentCount] = item;
+            equipmentCount = equipmentCount + 1;
+        }
+    }
+
+    public Equipment[] getEquipment() {
         Equipment[] copy = new Equipment[equipmentCount];
-        for (int i = 0; i < equipmentCount; i++) {
+        for (int i = 0; i < equipmentCount; i = i + 1) {
             copy[i] = equipment[i];
         }
         return copy;

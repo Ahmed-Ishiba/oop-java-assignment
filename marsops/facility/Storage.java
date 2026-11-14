@@ -7,7 +7,7 @@ public class Storage extends Facility {
 
     @Override
     public String getType() {
-        return "Stroage";
+        return "Storage";
     }
 
 }

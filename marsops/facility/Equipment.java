@@ -48,4 +48,9 @@ public class Equipment {
     public void repair() {
         status = EquipmentStatus.OPERATIONAL;
     }
+
+    @Override
+    public String toString() {
+        return "Equipment #" + id + " '" + name + "' [" + type + ", " + status + "]";
+    }
 }

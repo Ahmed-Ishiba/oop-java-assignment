@@ -1,10 +1,8 @@
 package marsops.agent;
 
-import java.util.*;
-import marsops.core.AgentRequirement;
-import marsops.emergency.Emergency;
 import marsops.facility.Location;
 import marsops.mission.Mission;
+import marsops.emergency.Emergency;
 
 public abstract class AbstractAgent implements Agent {
     private final int id;
@@ -105,5 +103,16 @@ public abstract class AbstractAgent implements Agent {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean canRespondTo(Emergency emergency) {
+        if (emergency == null) {
+            return false;
+        }
+        if (!isAvailable() || !physicallyCapable()) {
+            return false;
+        }
+        return emergency.requires(this);
     }
 }

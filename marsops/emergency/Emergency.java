@@ -4,6 +4,7 @@ import marsops.facility.Location;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import marsops.agent.Agent;
 import marsops.core.AgentRequirement;
 import java.util.List;
 
@@ -46,6 +47,18 @@ public abstract class Emergency {
 
     protected void addRequirement(AgentRequirement requirement) {
         responderRequirement.add(requirement);
+    }
+
+    public boolean requires(Agent agent) {
+        if (agent == null) {
+            return false;
+        }
+        for (int i = 0; i < responderRequirement.size(); i = i + 1) {
+            if (responderRequirement.get(i).matches(agent)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public abstract void applyImmediateEffects();
