@@ -3,16 +3,18 @@ package marsops.mission;
 import marsops.core.AgentRequirement;
 
 import marsops.environment.Condition;
-
+import marsops.facility.EquipmentType;
 import marsops.agent.*;
 public class ExplorationMission extends Mission{
     public ExplorationMission(int id, String region) {
-        super(id, MissionType.EXPLORATION);
+        super(id, MissionType.EXPLORATION, "Explore " + region, 3);        
         requireAgent(new AgentRequirement(Category.HUMAN, Capability.SCIENTIFIC_RESEARCH, 1));
         requireAgent(new AgentRequirement(Category.ROBOT, Capability.SURFACE_TRAVEL, 1));
+        requireEquipment(EquipmentType.EXPLORATION);
     }
     @Override 
     public boolean isBlockedBy(Condition condition){
         return condition == Condition.DUST_STORM;
     }
+    protected void onComplete(){ }
 }
