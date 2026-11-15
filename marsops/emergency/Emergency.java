@@ -3,7 +3,9 @@ package marsops.emergency;
 import marsops.facility.Location;
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.EnumMap;
+import java.util.Map;
+import marsops.resource.ResourceType;
 import marsops.agent.Agent;
 import marsops.core.AgentRequirement;
 import java.util.List;
@@ -12,6 +14,7 @@ public abstract class Emergency {
     private EmergencyType Emergency_type;
     private Location location;
     private List<AgentRequirement> responderRequirement = new ArrayList<>();
+    private Map<ResourceType, Integer> responseResources = new EnumMap<>(ResourceType.class);
     private EmergencyState state = EmergencyState.ACTIVE;
     private String reason;
 
@@ -60,6 +63,35 @@ public abstract class Emergency {
         }
         return false;
     }
+    public Map<ResourceType, Integer> getResponseResources() {
+        return Collections.unmodifiableMap(responseResources);
+    }
 
+    protected void requireResource(ResourceType resource, int amount) {
+        responseResources.merge(resource, amount, Integer::sum);
+    }
+
+    public void markResolved() {
+        requireActive();
+        state = EmergencyState.RESOLVED;
+        onResolved();
+    }
+
+    public void markUnresolved(String reason) {
+        requireActive();
+        this.reason = reason;
+        state = EmergencyState.UNRESOLVED;
+        applyUnresolvedPenalty();
+    }
+
+    private void requireActive() {
+        if (state != EmergencyState.ACTIVE) {
+            throw new IllegalStateException("Emergency already ended: " + state);
+        }
+    }
+
+
+    protected void onResolved() { }
+    protected void applyUnresolvedPenalty() { }
     public abstract void applyImmediateEffects();
 }
