@@ -26,8 +26,13 @@ public class OxygenLeak extends Emergency {
         deductOxygen();
     }
 
-    protected void applyUnresolvedPenalty() { deductOxygen(); }
-    protected void onResolved() { habitat.getLifeSupportSystem().sealLeak(); }
+    protected void applyUnresolvedPenalty() {
+        deductOxygen();
+    }
+
+    protected void onResolved() {
+        habitat.getLifeSupportSystem().sealLeak();
+    }
 
     private void deductOxygen() {
         int lost = Math.min(oxygenLoss, habitat.getQuantity(ResourceType.OXYGEN));

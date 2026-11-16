@@ -25,15 +25,17 @@ public class RepairMission extends Mission {
         this.equipment = equipment;
         requireAgent(new AgentRequirement(Category.HUMAN, Capability.REPAIR, 1));
         requireAgent(new AgentRequirement(Category.ROBOT, Capability.REPAIR, 1));
-        requireResource(ResourceType.SPARE_PARTS, 3);    
+        requireResource(ResourceType.SPARE_PARTS, 3);
     }
 
     @Override
     protected void onComplete() {
         if (facility != null) {
             facility.restore();
-            for (Equipment item : facility.getEquipment()) item.repair();
+            for (Equipment item : facility.getEquipment())
+                item.repair();
         }
-        if (equipment != null) equipment.repair();
+        if (equipment != null)
+            equipment.repair();
     }
 }

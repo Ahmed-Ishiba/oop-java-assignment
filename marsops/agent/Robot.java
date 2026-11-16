@@ -63,4 +63,11 @@ public class Robot extends AbstractAgent {
             }
         }
     }
+
+    public void restoreService(int percent) {
+        heal(percent);
+        setBattery(getBattery() + percent);
+        if (getBattery() > 100)
+            setBattery(100);
+    }
 }

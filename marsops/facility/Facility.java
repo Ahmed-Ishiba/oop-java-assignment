@@ -84,6 +84,10 @@ public abstract class Facility {
         return resources.remove(type, amount);
     }
 
+    public int removeResourceUpTo(ResourceType type, int amount) {
+        return resources.removeUpTo(type, amount);
+    }
+
     public void addEquipment(Equipment item) {
         if (item != null && equipmentCount < equipment.length) {
             equipment[equipmentCount] = item;

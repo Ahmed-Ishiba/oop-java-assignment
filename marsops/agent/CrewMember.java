@@ -36,4 +36,19 @@ public class CrewMember extends AbstractAgent {
         return super.canPerform(capability);
     }
 
+    @Override
+    public void tick() {
+        if (getCurrentMission() != null) {
+            fatigue = fatigue + 10;
+            if (fatigue > 100) {
+                fatigue = 100;
+            }
+        } else {
+            fatigue = fatigue - 5;
+            if (fatigue < 0) {
+                fatigue = 0;
+            }
+        }
+    }
+
 }

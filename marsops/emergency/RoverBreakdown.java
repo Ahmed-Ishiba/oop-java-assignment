@@ -10,7 +10,7 @@ import marsops.resource.ResourceType;
 
 public class RoverBreakdown extends Emergency {
     private final Robot rover;
-    private final Mission mission;   // may be null
+    private final Mission mission; // may be null
 
     public RoverBreakdown(Robot rover, Mission mission) {
         super(EmergencyType.BREAKDOWN, Location.MARS_SURFACE);
@@ -28,9 +28,11 @@ public class RoverBreakdown extends Emergency {
         if (mission != null && !mission.isFinished()) {
             mission.fail("Rover " + rover.getName() + " broke down");
         }
-        rover.takeDamage(rover.getHealth());   // after the mission fails, so release() runs first
+        rover.takeDamage(rover.getHealth()); // after the mission fails, so release() runs first
     }
 
     @Override
-    protected void onResolved() { rover.restoreService(100); }
+    protected void onResolved() {
+        rover.restoreService(100);
+    }
 }

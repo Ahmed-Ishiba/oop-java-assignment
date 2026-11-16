@@ -115,4 +115,8 @@ public abstract class AbstractAgent implements Agent {
         }
         return emergency.requires(this);
     }
+
+    public void tick() {
+
+    }
 }

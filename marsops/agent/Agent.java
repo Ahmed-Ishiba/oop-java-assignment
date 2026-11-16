@@ -35,4 +35,6 @@ public interface Agent {
     void heal(int amount);
 
     void takeDamage(int amount);
+
+    void tick();
 }
