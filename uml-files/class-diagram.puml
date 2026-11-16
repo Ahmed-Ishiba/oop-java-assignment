@@ -1,0 +1,150 @@
+@startuml MARS-OPS-Class
+title MARS-OPS - Class Diagram (core)
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+left to right direction
+
+class MarsColony {
+  - name: String
+  - currentTime: int
+  + submitMission(m: Mission, agents: List<Agent>): MissionResult
+  + triggerEmergency(e: Emergency): EmergencyResult
+  + advanceTime(units: int): void
+  + setEnvironmentCondition(c: Condition): void
+}
+
+class Environment {
+  - condition: Condition
+  + isBlocked(m: Mission): boolean
+}
+
+' ---------- agents ----------
+interface Agent {
+  + isAvailable(): boolean
+  + canPerform(c: Capability): boolean
+  + assignTo(m: Mission): void
+  + release(): void
+  + tick(): void
+}
+abstract class AbstractAgent {
+  - id: int
+  - name: String
+  - health: int
+  - state: AgentState
+}
+abstract class CrewMember {
+  - fatigue: int
+}
+abstract class Robot {
+  - battery: int
+}
+class Scientist
+class Engineer
+class MedicalOfficer
+class ExplorationRover
+class RepairRobot
+class Drone
+
+' ---------- facilities ----------
+abstract class Facility {
+  - id: int
+  - name: String
+  - status: FacilityStatus
+  + isOperational(): boolean
+}
+class Habitat
+class Laboratory
+class Storage
+class PowerStation
+class CommunicationStation
+class ResourceStore
+class Equipment
+class LifeSupportSystem
+
+' ---------- missions ----------
+abstract class Mission {
+  - state: MissionState
+  - duration: int
+  - elapsed: int
+  + complete(): void
+  + fail(reason: String): void
+  # {abstract} onComplete(): void
+}
+class ExplorationMission
+class ResearchMission
+class RescueMission
+class RepairMission
+class AgentRequirement {
+  - category: Category
+  - capability: Capability
+  - count: int
+}
+
+' ---------- emergencies ----------
+abstract class Emergency {
+  - state: EmergencyState
+  + {abstract} applyImmediateEffects(): void
+}
+class OxygenLeak
+class Fire
+class RoverBreakdown
+class MedicalEmergency
+
+' ---------- results ----------
+class MissionResult
+class EmergencyResult
+
+' ---------- inheritance ----------
+Agent <|.. AbstractAgent
+AbstractAgent <|-- CrewMember
+AbstractAgent <|-- Robot
+CrewMember <|-- Scientist
+CrewMember <|-- Engineer
+CrewMember <|-- MedicalOfficer
+Robot <|-- ExplorationRover
+Robot <|-- RepairRobot
+Robot <|-- Drone
+
+Facility <|-- Habitat
+Facility <|-- Laboratory
+Facility <|-- Storage
+Facility <|-- PowerStation
+Facility <|-- CommunicationStation
+
+Mission <|-- ExplorationMission
+Mission <|-- ResearchMission
+Mission <|-- RescueMission
+Mission <|-- RepairMission
+
+Emergency <|-- OxygenLeak
+Emergency <|-- Fire
+Emergency <|-- RoverBreakdown
+Emergency <|-- MedicalEmergency
+
+' ---------- composition ----------
+MarsColony *-- Environment
+Facility *-- ResourceStore
+Habitat *-- LifeSupportSystem
+Mission *-- "1..*" AgentRequirement
+
+' ---------- aggregation ----------
+MarsColony o-- "0..*" Agent
+MarsColony o-- "0..*" Facility
+Facility o-- "0..20" Equipment
+Mission o-- "0..*" Agent : assigned
+
+' ---------- association / dependency ----------
+MarsColony --> "0..1" Mission : activeMission
+OxygenLeak --> Habitat
+Fire --> Laboratory
+MarsColony ..> MissionResult : creates
+MarsColony ..> EmergencyResult : creates
+Environment ..> Mission : isBlockedBy()
+
+note bottom of Mission
+  Template Method: complete() does the shared
+  work, then calls onComplete() of the subclass.
+end note
+@enduml

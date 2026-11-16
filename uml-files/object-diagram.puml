@@ -1,0 +1,55 @@
+@startuml MARS-OPS-Object
+title MARS-OPS - Object Diagram\nSnapshot: mission just accepted (t = 0)
+
+skinparam shadowing false
+hide empty members
+
+object "alphaBase:MarsColony" as colony {
+  name = "Alpha Base"
+  currentTime = 0
+}
+object "env:Environment" as env {
+  condition = NORMAL
+}
+object "ada:Scientist" as ada {
+  capability = SCIENTIFIC_RESEARCH
+  fatigue = 0
+  state = ON_MISSION
+}
+object "rover1:ExplorationRover" as rover {
+  capability = SURFACE_TRAVEL
+  battery = 100
+  state = ON_MISSION
+}
+object "habitatA:Habitat" as hab {
+  name = "Habitat A"
+  status = OPERATIONAL
+}
+object "exploreJezero:ExplorationMission" as mission {
+  state = ASSIGNED
+  duration = 3
+  elapsed = 0
+}
+object "req1:AgentRequirement" as req1 {
+  HUMAN / SCIENTIFIC_RESEARCH / 1
+}
+object "req2:AgentRequirement" as req2 {
+  ROBOT / SURFACE_TRAVEL / 1
+}
+
+colony *-- env
+colony o-- ada
+colony o-- rover
+colony o-- hab
+colony --> mission : activeMission
+
+mission o-- ada : assigned
+mission o-- rover : assigned
+mission *-- req1
+mission *-- req2
+
+note bottom of colony
+  Representative snapshot: other facilities,
+  equipment and locations are omitted.
+end note
+@enduml

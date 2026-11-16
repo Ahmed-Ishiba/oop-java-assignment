@@ -1,0 +1,38 @@
+@startuml MARS-OPS-Use-Case
+title MARS-OPS - Use Case Diagram
+
+left to right direction
+skinparam shadowing false
+
+actor "Colony Operator" as Op
+actor "Emergency Operator" as EOp
+
+rectangle "MARS-OPS" {
+  usecase "Manage agents\nand facilities" as UC1
+  usecase "Submit and run\nmissions" as UC2
+  usecase "Advance simulation time" as UC3
+  usecase "Change environment\ncondition" as UC4
+  usecase "Trigger and handle\nemergencies" as UC5
+  usecase "Generate colony report" as UC6
+
+  usecase "Check agents, resources\nand environment" as UC2a
+  usecase "Reject mission" as UC2b
+  usecase "Find responders and\ncheck resources" as UC5a
+  usecase "Apply unresolved\npenalty" as UC5b
+  usecase "Fail blocked mission" as UC4a
+}
+
+Op --> UC1
+Op --> UC2
+Op --> UC3
+Op --> UC4
+Op --> UC6
+EOp --> UC5
+EOp --> UC6
+
+UC2 ..> UC2a : <<include>>
+UC5 ..> UC5a : <<include>>
+UC2b ..> UC2 : <<extend>>\n[a check fails]
+UC5b ..> UC5 : <<extend>>\n[no responders / resources]
+UC4a ..> UC4 : <<extend>>\n[active mission blocked]
+@enduml

@@ -1,0 +1,26 @@
+@startuml MARS-OPS-Mission-State
+title MARS-OPS - Mission Lifecycle
+
+hide empty description
+skinparam shadowing false
+
+[*] --> CREATED : new Mission(...)
+
+CREATED --> ASSIGNED : submitMission()\n[all checks pass]\n/ assign(agents)
+CREATED --> FAILED : submitMission()\n[a check fails]\n/ fail(reason)
+
+ASSIGNED --> IN_PROGRESS : advanceTime()\n/ start()
+IN_PROGRESS --> IN_PROGRESS : advanceTime()\n[elapsed < duration]\n/ tick()
+IN_PROGRESS --> COMPLETED : advanceTime()\n[elapsed >= duration]\n/ complete()
+
+ASSIGNED --> FAILED : [blocked by environment\nor equipment failure]\n/ fail(reason)
+IN_PROGRESS --> FAILED : [blocked by environment\nor equipment failure]\n/ fail(reason)
+
+COMPLETED --> [*]
+FAILED --> [*]
+
+note right of FAILED
+  A failed mission cannot be retried:
+  create a new mission object.
+end note
+@enduml

@@ -43,9 +43,7 @@ public class Main {
         System.out.println();
     }
 
-    // ======================================================================
-    // Scenario 1: Successful Exploration
-    // ======================================================================
+
     private static void scenario1SuccessfulExploration() {
         MarsColony colony = new MarsColony("Alpha Base");
 
@@ -111,9 +109,7 @@ public class Main {
         System.out.println("Rover battery: " + rover.getBattery());
     }
 
-    // ======================================================================
-    // Scenario 2: Mission Rejection (unsuitable agent)
-    // ======================================================================
+
     private static void scenario2MissionRejection() {
         MarsColony colony = new MarsColony("Beta Base");
 
@@ -136,9 +132,6 @@ public class Main {
         System.out.println("Mission state: " + mission.getState());
     }
 
-    // ======================================================================
-    // Scenario 3: Resource Shortage
-    // ======================================================================
     private static void scenario3ResourceShortage() {
         MarsColony colony = new MarsColony("Gamma Base");
 
@@ -170,9 +163,6 @@ public class Main {
                 .println("Oxygen before/after: " + oxygenBefore + " / " + colony.getResourceTotal(ResourceType.OXYGEN));
     }
 
-    // ======================================================================
-    // Scenario 4: Emergency Handling (Oxygen Leak)
-    // ======================================================================
     private static void scenario4OxygenLeak() {
         MarsColony colony = new MarsColony("Delta Base");
 
@@ -200,9 +190,7 @@ public class Main {
         System.out.println("Emergency state: " + leak.getState());
     }
 
-    // ======================================================================
-    // Scenario 5: Environmental Effect (Dust Storm)
-    // ======================================================================
+
     private static void scenario5DustStorm() {
         MarsColony colony = new MarsColony("Epsilon Base");
 

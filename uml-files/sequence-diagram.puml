@@ -1,0 +1,41 @@
+@startuml MARS-OPS-Sequence
+title Mission Submission and Execution
+
+skinparam shadowing false
+autonumber
+
+actor "Main" as User
+participant "colony:MarsColony" as Colony
+participant "mission:Mission" as Mission
+participant "agents:Agent" as Agent
+participant "env:Environment" as Env
+
+User -> Colony : submitMission(mission, agents)
+
+Colony -> Mission : getAgentRequirements()
+Colony -> Agent : isAvailable() / matches(agent)
+Colony -> Env : getCondition()
+Colony -> Mission : isBlockedBy(condition)
+Colony -> Colony : check and consume resources
+
+alt any check fails
+  Colony -> Mission : fail(reason)
+  Colony --> User : MissionResult.rejected(reason)
+else all checks pass
+  Colony -> Mission : assign(agents)
+  Mission -> Agent : assignTo(mission)
+  Colony --> User : MissionResult.accepted(mission)
+end
+
+== Time advances ==
+
+User -> Colony : advanceTime(units)
+loop each time unit
+  Colony -> Mission : start() / tick()
+  alt elapsed >= duration
+    Mission -> Mission : complete()
+    Mission -> Agent : release()
+    Mission -> Mission : onComplete()
+  end
+end
+@enduml
