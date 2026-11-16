@@ -1,20 +1,25 @@
-# Developer notes
+# emergency
 
-read this khodary
+`Emergency` is an abstract class describing an event: its `EmergencyType`,
+`Location`, `EmergencyState` (ACTIVE, then RESOLVED or UNRESOLVED), the
+responders it needs (`AgentRequirement`s) and the resources the response costs.
 
-this emergency file works as follows
+Each value of the `EmergencyType` enum has one child class:
 
-the abstract class emergency defines some shit like:   
-- type
-- location
-- responder requirement (array of AgentRequirement)
+| EmergencyType | Class | Immediate effect | When resolved |
+|---|---|---|---|
+| OXYGEN_LEAK | `OxygenLeak` | registers a leak, removes oxygen from the habitat | seals the leak |
+| FIRE | `Fire` | damages the lab and its equipment | restores the lab |
+| BREAKDOWN | `RoverBreakdown` | fails the rover's mission, rover takes full damage | restores the rover |
+| MEDICAL_EMERGENCY | `MedicalEmergency` | none yet (TODO) | heals the patient |
 
-and some getters and setters
+Each child sets its requirements in the constructor
+(`addRequirement`, `requireResource`) and implements the abstract
+`applyImmediateEffects()`. It can also override the hooks `onResolved()` and
+`applyUnresolvedPenalty()`, which the base class calls from `markResolved()` and
+`markUnresolved(reason)`. (`OxygenLeak` uses the penalty hook to lose oxygen a
+second time.)
 
-so to expand on this further:   
-the fire file extends the emergency and just adds requirements to the requirements list
-
-TO DO:  
-notice that the abstract function apply effect is empty, must implement the facilities first
-
-apply the same for other emergencies (will do this in the next commit 3ayez akol el 2awel)  
+An emergency doesn't respond to itself. `MarsColony.triggerEmergency()` finds the
+agents (`requires(agent)`), checks the resources and calls `markResolved()` or
+`markUnresolved()`.
