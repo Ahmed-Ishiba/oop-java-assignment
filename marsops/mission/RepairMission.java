@@ -23,7 +23,9 @@ public class RepairMission extends Mission {
         super(id, MissionType.REPAIR, description, 2);
         this.facility = facility;
         this.equipment = equipment;
-        // keep your two requireAgent lines and requireResource(SPARE_PARTS, 3)
+        requireAgent(new AgentRequirement(Category.HUMAN, Capability.REPAIR, 1));
+        requireAgent(new AgentRequirement(Category.ROBOT, Capability.REPAIR, 1));
+        requireResource(ResourceType.SPARE_PARTS, 3);    
     }
 
     @Override

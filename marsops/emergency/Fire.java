@@ -15,6 +15,8 @@ public class Fire extends Emergency{
     public Fire(Laboratory laboratory) {
         super(EmergencyType.FIRE, laboratory.getLocation());
         this.laboratory = laboratory;
+        addRequirement(new AgentRequirement(Category.HUMAN, Capability.REPAIR, 1));
+        addRequirement(new AgentRequirement(Category.ROBOT, Capability.REPAIR, 1));
     }
     public void applyImmediateEffects() {
         laboratory.damage();
@@ -32,5 +34,6 @@ public class Fire extends Emergency{
             }
         }
     }
+    protected void onResolved() { laboratory.restore(); }
 
 }

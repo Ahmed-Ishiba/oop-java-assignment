@@ -42,7 +42,9 @@ public abstract class Mission {
     public List<AgentRequirement> getAgentRequirements(){return Collections.unmodifiableList(agentRequirements);}
     public Map<ResourceType,Integer> getResourceRequirements(){return Collections.unmodifiableMap(resourceRequirements);}
     public Set<EquipmentType> getEquipmentTypes(){return Collections.unmodifiableSet(equipmentRequirements);}
-    
+    public int getDuration(){return duration;}
+    public int getElapsed(){return elapsed;}
+    public List<Agent> getAssignedAgents(){return assignedAgents;}
 
     protected void requireAgent(AgentRequirement requirement){agentRequirements.add(requirement);}
     protected void requireResource(ResourceType resource, int amount){resourceRequirements.merge(resource, amount, Integer::sum);}
@@ -58,6 +60,7 @@ public abstract class Mission {
         releaseAgents();
     }
     public void assign(List<Agent> agents){
+        requireState(MissionState.CREATED);
         for(Agent agent:agents){
             agent.assignTo(this);
             assignedAgents.add(agent);
@@ -65,11 +68,14 @@ public abstract class Mission {
         state = MissionState.ASSIGNED;
     }
     public void start(){
+        requireState(MissionState.ASSIGNED);
         state = MissionState.IN_PROGRESS;
     }
     public void complete(){
+        requireState(MissionState.IN_PROGRESS);
         state = MissionState.COMPLETED;
         releaseAgents();
+        onComplete();
     }
     private void releaseAgents(){
         for(Agent agent : assignedAgents)agent.release();
@@ -87,5 +93,5 @@ public abstract class Mission {
         }
     }
 
-    protected void onComplete(){ }
+    protected abstract void onComplete();
 }
